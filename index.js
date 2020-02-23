@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
+const methodOverride = require('method-override');
 // const seedDB = require('./seeds');
 
 // requiring routes 
@@ -14,14 +15,17 @@ const authRoutes = require('./routes/auth');
 
 mongoose.connect('mongodb://localhost/yelpCamp', {
     useUnifiedTopology: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useFindAndModify: false
 });
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public')); // Serve static files in /public
+app.use(methodOverride('_method'));
 // seedDB();
 
-//Passport config
+// Passport config
 app.use(require('express-session')({
     secret: 'Once again it is secret message.',
     resave: false,

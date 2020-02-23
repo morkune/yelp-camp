@@ -7,8 +7,8 @@ const campgroundSchema = new mongoose.Schema({
     description: String,
     author: {
         id: {
-type: mongoose.Schema.Types.ObjectId,
-ref: 'User'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
         },
         username: String
     },
