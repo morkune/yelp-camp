@@ -52,6 +52,4 @@ app.use(authRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/comments', commentRoutes);
 
-app.listen(3000, () => {
-    console.log('The YalpCamp Server Has Started!');
-});
+app.listen(process.env.PORT, process.env.IP);
