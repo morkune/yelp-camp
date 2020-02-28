@@ -8,6 +8,7 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const methodOverride = require('method-override');
 const PORT = process.env.PORT || 3000;
+const DB_CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://localhost/yelpCamp';
 // const seedDB = require('./seeds');
 
 // requiring routes 
@@ -15,8 +16,7 @@ const commentRoutes = require('./routes/comments');
 const campgroundRoutes = require('./routes/campgrounds');
 const authRoutes = require('./routes/auth');
 
-// mongoose.connect('mongodb://localhost/yelpCamp');
-mongoose.connect('mongodb+srv://Jovita:Mongo321+@yelpcamp-ud0s6.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect(DB_CONNECTION_STRING, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useFindAndModify: false
