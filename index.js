@@ -7,6 +7,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const methodOverride = require('method-override');
+const PORT = process.env.PORT || 3000;
 // const seedDB = require('./seeds');
 
 // requiring routes 
@@ -52,4 +53,7 @@ app.use(authRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/comments', commentRoutes);
 
-app.listen(process.env.PORT, process.env.IP);
+app.listen(PORT, () => {
+    console.log('The Server Has Started!');
+    console.log(`Listening on ${PORT}`);
+});
