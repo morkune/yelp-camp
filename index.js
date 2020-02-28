@@ -16,10 +16,15 @@ const commentRoutes = require('./routes/comments');
 const campgroundRoutes = require('./routes/campgrounds');
 const authRoutes = require('./routes/auth');
 
+console.log('Connecting to Mongo DB...');
 mongoose.connect(DB_CONNECTION_STRING, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useFindAndModify: false
+}).then(() => {
+    console.log('Successfully connected to Mongo DB');
+}, (error) => {
+    console.error(error);
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
