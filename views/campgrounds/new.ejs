@@ -7,16 +7,20 @@
             <div style="width: 30%; margin: 30px auto;">
                 <form action="/campgrounds", method="POST">
                     <div class="form-group">
-                        <input class='form-control' type="text" name='name' placeholder="name" required>
+                        <label for="name-input">Name</label>
+                        <input class='form-control' type="text" name='name' id="name-input" required>
                     </div>
                     <div class="form-group">
-                        <input class='form-control' type="number" name='price' placeholder="price" min="0.01" step="0.01" required>
+                        <label for="name-input">Price $</label>
+                        <input class='form-control' type="number" name='price' min="0.01" step="0.01" id="price-input" required>
                     </div>
                     <div class="form-group">
-                        <input class='form-control' type="text" name='image' placeholder="image url" required>
+                        <label for="name-input">Image URL</label>
+                        <input class='form-control' type="text" name='image' id="image-input" required>
                     </div>
                     <div class="form-group">
-                        <input class='form-control' type="text" name='description' placeholder="description" required>
+                        <label for="name-input">Description</label>
+                        <textarea class='form-control' type="text" name='description' id="description-input" required></textarea>
                     </div>
                     <div class="form-group">
                         <button class='btn btn-primary btn-block'>Submit</button>
