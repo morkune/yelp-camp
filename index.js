@@ -8,8 +8,7 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const methodOverride = require('method-override');
 const PORT = process.env.PORT || 3000;
-const DB_CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://localhost/yelpCamp';
-// const seedDB = require('./seeds');
+const DB_CONNECTION_STRING = process.env.DB_CONNECTION_STRING;
 
 // requiring routes 
 const commentRoutes = require('./routes/comments');
@@ -32,7 +31,6 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public')); // Serve static files in /public
 app.use(methodOverride('_method'));
 app.use(flash());
-// seedDB();
 
 // Passport config
 app.use(require('express-session')({
@@ -41,6 +39,7 @@ app.use(require('express-session')({
     saveUninitialized: false,
 }));
 
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
