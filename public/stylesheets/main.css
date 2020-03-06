@@ -1,25 +1,25 @@
 .container {
-    margin-top: 1em;
+  margin-top: 1em;
 }
 
 .card {
-    width: auto;
+  width: auto;
 }
 
 .comments-card {
-    margin-top: 1em;
+  margin-top: 1em;
 }
 
 #delete-form {
-    display: inline;
+  display: inline;
 }
 
 .form-heading {
-    text-align: center;
-    margin-top: 30px;
+  text-align: center;
+  margin-top: 30px;
 }
 
 .form {
-    width: 30%;
-    margin: 30px auto;
+  width: 30%;
+  margin: 30px auto;
 }
