@@ -120,9 +120,7 @@ router.post('/forgot', (req, res, next) => {
           console.log(`Mail sent to ${user.email}`);
           req.flash(
             'success',
-            'An e-mail has been sent to ' +
-              user.email +
-              'with further instructions.',
+            `An e-mail has been sent to ${user.email} with further instructions.`,
           );
           done(err, 'done');
         });
