@@ -10,6 +10,15 @@ npm install
 
 ## Development
 
+Application use environment variables for Mongo DB connection string, Mailgun API key and domain.
+To create local environment variables in PowerShell, simply use:
+```sh
+$env:DB_CONNECTION_STRING = 'mongodb://localhost/yelpCamp'
+$env:MG_API_KEY = 'example-api-key'
+$env:MG_DOMAIN = 'example-domain'
+```
+
+Run application in development mode:
 ```sh
 npm run develop
 ```

@@ -1,27 +1,40 @@
 <%- include("./partials/header") %>
 
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <h1 class="form-heading">Login</h1>
-            <div>
-                <form class="form" action="/login" method="POST">
-                    <div class="form-group">
-                        <label for="username-input">Username</label>
-                        <input class="form-control" type="text" name="username" id="username-input">
-                    </div>
-                    <div class="form-group">
-                        <label for="password-input">Password</label>
-                        <input class="form-control" type="password" name="password" id="password-input">
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                    </div>
-                    <a href="/campgrounds">Go Back</a>
-                </form>
-            </div>
+  <div class="row">
+    <div class="col">
+      <h1 class="form-heading">Login</h1>
+      <form class="form" action="/login" method="POST">
+        <div class="form-group">
+          <label for="username-input">Username</label>
+          <input
+            class="form-control"
+            type="text"
+            name="username"
+            id="username-input"
+          />
         </div>
+        <div class="form-group">
+          <label for="password-input">Password</label>
+          <input
+            class="form-control"
+            type="password"
+            name="password"
+            id="password-input"
+          />
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block">
+            Submit
+          </button>
+        </div>
+        <div class="d-flex justify-content-between">
+          <a href="/campgrounds">Go Back</a>
+          <a href="/forgot">Forgot password</a>
+        </div>
+      </form>
     </div>
+  </div>
 </div>
 
 <%- include("./partials/footer") %>
