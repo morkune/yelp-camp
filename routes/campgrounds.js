@@ -74,9 +74,9 @@ router.get('/:id/edit', middleware.checkCampgroundOwnership, (req, res) => {
 router.put('/:id', middleware.checkCampgroundOwnership, (req, res) => {
   // find and update the correct campground
   const campground = req.body.campground;
-  // prevent unnecessary spaces in the form except for the author as it is already an object
+  // prevent unnecessary spaces in the form except for non-string values
   Object.keys(campground).forEach((key) => {
-    if (key !== 'author') {
+    if (typeof campground[key] === 'string') {
       campground[key] = campground[key].trim();
     }
   });
