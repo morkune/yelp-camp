@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "develop": "nodemon -e js,ejs",
+    "develop": "nodemon -e js,ejs --ignore public/",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier": "prettier --write \"./**/*.{js,json,css}\""
   },
