@@ -26,10 +26,10 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
     username: req.user.username,
   };
   const newCampground = {
-    name: name,
-    price: price,
-    image: image,
-    description: desc,
+    name: name.trim(),
+    price: price.trim(),
+    image: image.trim(),
+    description: desc.trim(),
     author: author,
   };
   // Create a new campground and save it to DB
@@ -73,9 +73,16 @@ router.get('/:id/edit', middleware.checkCampgroundOwnership, (req, res) => {
 // Update campground route
 router.put('/:id', middleware.checkCampgroundOwnership, (req, res) => {
   // find and update the correct campground
+  const campground = req.body.campground;
+  // prevent unnecessary spaces in the form except for non-string values
+  Object.keys(campground).forEach((key) => {
+    if (typeof campground[key] === 'string') {
+      campground[key] = campground[key].trim();
+    }
+  });
   Campground.findByIdAndUpdate(
     req.params.id,
-    req.body.campground,
+    campground,
     (err, updatedCampground) => {
       if (err) {
         res.redirect('/campgrounds');

@@ -193,8 +193,7 @@ router.post('/reset/:token', (req, res) => {
           from: 'noreply@campgrounds.com',
           subject: 'Your password has been changed',
           text: `Hello,
-
-                    This is a confirmation that the password for your account ${user.email} has just been changed.`,
+          This is a confirmation that the password for your account ${user.email} has just been changed.`,
         };
         emailTransport.sendMail(mailOptions, err => {
           req.flash('success', 'Success! Your password has been changed.');
