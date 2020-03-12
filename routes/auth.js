@@ -25,18 +25,22 @@ router.get('/', (req, res) => {
 
 // show register form
 router.get('/register', (req, res) => {
-  res.render('register');
+  res.render('register'); // TODO: Pass isAdmin based on query params
 });
-// handle sign up login
+// handle sign up logic
 router.post('/register', (req, res) => {
   const newUser = new User({
     username: req.body.username,
     email: req.body.email,
   });
 
+  if (req.body.adminCode === process.env.ADMIN_CODE) {
+    newUser.isAdmin = true;
+  }
+
+
   User.register(newUser, req.body.password, (err, user) => {
     if (err) {
-      console.log(err);
       return res.render('register', { error: err.message });
     }
     passport.authenticate('local')(req, res, () => {

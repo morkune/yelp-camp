@@ -16,6 +16,7 @@ To create local environment variables in PowerShell, simply use:
 $env:DB_CONNECTION_STRING = 'mongodb://localhost/yelpCamp'
 $env:MG_API_KEY = 'example-api-key'
 $env:MG_DOMAIN = 'example-domain'
+$env:ADMIN_CODE = 'example-code'
 ```
 
 Run application in development mode:
