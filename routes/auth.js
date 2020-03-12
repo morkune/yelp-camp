@@ -25,8 +25,9 @@ router.get('/', (req, res) => {
 
 // show register form
 router.get('/register', (req, res) => {
-  res.render('register'); // TODO: Pass isAdmin based on query params
+  res.render('register', { isAdmin: req.query.admin === 'true' });
 });
+
 // handle sign up logic
 router.post('/register', (req, res) => {
   const newUser = new User({
@@ -37,7 +38,6 @@ router.post('/register', (req, res) => {
   if (req.body.adminCode === process.env.ADMIN_CODE) {
     newUser.isAdmin = true;
   }
-
 
   User.register(newUser, req.body.password, (err, user) => {
     if (err) {

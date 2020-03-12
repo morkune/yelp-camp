@@ -33,6 +33,7 @@
               id="email-input"
             />
           </div>
+          <% if (isAdmin) { %>
           <div class="form-group">
             <label for="admin-input">Admin code</label>
             <input
@@ -42,6 +43,7 @@
               id="admin-input"
             />
           </div>
+          <% } %>
           <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block">
               Sign Up!
