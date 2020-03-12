@@ -23,7 +23,7 @@
           <p class="card-text font-italic">
             Submitted By <%= campground.author.username %>
           </p>
-          <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
+          <% if(currentUser && (campground.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
           <a
             class="btn btn-warning btn-sm"
             href="/campgrounds/<%= campground._id %>/edit"
@@ -47,9 +47,6 @@
               href="/campgrounds/<%= campground._id %>/comments/new"
               >Add New Comment</a
             >
-            <a class="btn btn-secondary btn-sm" href="/campgrounds"
-              >Go Back to All Campgrounds</a
-            >
           </div>
           <hr />
           <% campground.comments.forEach(function(comment){ %>
@@ -64,7 +61,7 @@
               <p>
                 <%= comment.text %>
               </p>
-              <% if(currentUser && comment.author.id.equals(currentUser._id)){
+              <% if(currentUser && (comment.author.id.equals(currentUser._id) || currentUser.isAdmin)){
               %>
               <a
                 class="btn btn-sm btn-warning"
