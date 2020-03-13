@@ -30,9 +30,19 @@ router.get('/register', (req, res) => {
 
 // handle sign up logic
 router.post('/register', (req, res) => {
+  // get data from form and add to user array
+  const username = req.body.username;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const email = req.body.email;
+  const avatar = req.body.avatar;
+
   const newUser = new User({
-    username: req.body.username,
-    email: req.body.email,
+    username: username.trim(),
+    firstName: firstName.trim(),
+    lastName: lastName.trim(),
+    email: email.trim(),
+    avatar: avatar.trim(),
   });
 
   if (req.body.adminCode === process.env.ADMIN_CODE) {
@@ -41,7 +51,10 @@ router.post('/register', (req, res) => {
 
   User.register(newUser, req.body.password, (err, user) => {
     if (err) {
-      return res.render('register', { error: err.message });
+      return res.render('register', {
+        isAdmin: req.query.admin === 'true',
+        error: err.message,
+      });
     }
     passport.authenticate('local')(req, res, () => {
       req.flash(
