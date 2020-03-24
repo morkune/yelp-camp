@@ -26,7 +26,7 @@ mongoose
     () => {
       console.log('Successfully connected to Mongo DB');
     },
-    error => {
+    (error) => {
       console.error(error);
     },
   );
