@@ -21,7 +21,7 @@
           <h5 class="card-title"><a href="#"><%= campground.name %></a></h5>
           <p class="card-text"><%= campground.description %></p>
           <p class="card-text font-italic">
-            Submitted By <%= campground.author.username %>
+            <em>Submitted By <a href="/users/<%= campground.author.id %>"><%= campground.author.username %></a>, <%= moment(campground.createdAt).fromNow() %></em>
           </p>
           <% if(currentUser && (campground.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
           <a

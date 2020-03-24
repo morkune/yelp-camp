@@ -29,7 +29,7 @@
     "passport-local-mongoose": "^6.0.1"
   },
   "devDependencies": {
-    "prettier": "^1.19.1"
+    "prettier": "^2.0.2"
   },
   "prettier": {
     "trailingComma": "all",

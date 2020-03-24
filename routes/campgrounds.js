@@ -33,7 +33,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
     author: author,
   };
   // Create a new campground and save it to DB
-  Campground.create(newCampground, err => {
+  Campground.create(newCampground, (err) => {
     if (err) {
       console.log(err);
     } else {

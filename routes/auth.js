@@ -6,6 +6,7 @@ const async = require('async');
 const nodemailer = require('nodemailer');
 const mg = require('nodemailer-mailgun-transport');
 const crypto = require('crypto');
+const Campground = require('../models/campground');
 
 const emailTransport = nodemailer.createTransport(
   mg({
@@ -88,6 +89,31 @@ router.get('/logout', (req, res) => {
   res.redirect('/campgrounds');
 });
 
+//User Profile
+router.get('/users/:id', (req, res) => {
+  User.findById(req.params.id, (err, foundUser) => {
+    if (err || !(foundUser && foundUser._id)) {
+      req.flash('error', 'Something went wrong');
+      res.redirect('/');
+    } else {
+      Campground.find()
+        .where('author.id')
+        .equals(foundUser._id)
+        .exec((err, campgrounds) => {
+          if (err) {
+            req.flash('error', 'Something went wrong');
+            res.redirect('/');
+            return;
+          }
+          res.render('users/profile', {
+            user: foundUser,
+            campgrounds: campgrounds,
+          });
+        });
+    }
+  });
+});
+
 // forgot route
 router.get('/forgot', (req, res) => {
   res.render('forgot');
@@ -96,7 +122,7 @@ router.get('/forgot', (req, res) => {
 router.post('/forgot', (req, res, next) => {
   async.waterfall(
     [
-      done => {
+      (done) => {
         crypto.randomBytes(20, (err, buf) => {
           const token = buf.toString('hex');
           done(err, token);
@@ -112,7 +138,7 @@ router.post('/forgot', (req, res, next) => {
           user.resetPasswordToken = token;
           user.resetPasswordExpires = Date.now() + 3600000; //1 hour
 
-          user.save(err => {
+          user.save((err) => {
             done(err, token, user);
           });
         });
@@ -133,7 +159,7 @@ router.post('/forgot', (req, res, next) => {
                 <a href="http://${req.headers.host}/reset/${token}">http://${req.headers.host}/reset/${token}</a><br><br>
                 If you did not request this, please ignore this email and your password will remain unchanged.`,
         };
-        emailTransport.sendMail(mailOptions, err => {
+        emailTransport.sendMail(mailOptions, (err) => {
           console.log(`Mail sent to ${user.email}`);
           req.flash(
             'success',
@@ -143,7 +169,7 @@ router.post('/forgot', (req, res, next) => {
         });
       },
     ],
-    err => {
+    (err) => {
       if (err) return next(err);
       res.redirect('/forgot');
     },
@@ -170,7 +196,7 @@ router.get('/reset/:token', (req, res) => {
 router.post('/reset/:token', (req, res) => {
   async.waterfall(
     [
-      done => {
+      (done) => {
         User.findOne(
           {
             resetPasswordToken: req.params.token,
@@ -186,12 +212,12 @@ router.post('/reset/:token', (req, res) => {
             }
             // if the first password is the same as the second passw, so we can go ahead and reset passw
             if (req.body.password === req.body.confirm) {
-              user.setPassword(req.body.password, err => {
+              user.setPassword(req.body.password, (err) => {
                 user.resetPasswordToken = undefined;
                 user.resetPasswordExpires = undefined;
                 // save the user new passw (in database)
-                user.save(err => {
-                  req.logIn(user, err => {
+                user.save((err) => {
+                  req.logIn(user, (err) => {
                     done(err, user);
                   });
                 });
@@ -212,13 +238,13 @@ router.post('/reset/:token', (req, res) => {
           text: `Hello,
           This is a confirmation that the password for your account ${user.email} has just been changed.`,
         };
-        emailTransport.sendMail(mailOptions, err => {
+        emailTransport.sendMail(mailOptions, (err) => {
           req.flash('success', 'Success! Your password has been changed.');
           done(err);
         });
       },
     ],
-    err => {
+    (err) => {
       res.redirect('/campgrounds');
     },
   );

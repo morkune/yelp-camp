@@ -82,7 +82,7 @@ router.put('/:comment_id', middleware.checkCommentOwnership, (req, res) => {
 // comments delete route
 router.delete('/:comment_id', middleware.checkCommentOwnership, (req, res) => {
   //find by id and remove
-  Comment.findByIdAndRemove(req.params.comment_id, err => {
+  Comment.findByIdAndRemove(req.params.comment_id, (err) => {
     if (err) {
       res.redirect('back');
     } else {

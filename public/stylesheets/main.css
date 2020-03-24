@@ -23,3 +23,18 @@
   width: 30%;
   margin: 30px auto;
 }
+
+.email-label {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.campgrounds-container {
+  margin-top: 15px;
+}
+
+@media (min-width: 768px) {
+  .campgrounds-container {
+    margin-top: 0;
+  }
+}
