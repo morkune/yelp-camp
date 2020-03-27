@@ -5,18 +5,41 @@ const middleware = require('../middleware');
 
 // INDEX - show all campgrounds in the web
 router.get('/', (req, res) => {
-  Campground.find({}, (err, allCampgrounds) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render('campgrounds/index', { campgrounds: allCampgrounds });
-    }
-  });
+  let noMatch = null;
+  if (req.query.search) {
+    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+    // Get all campgrounds from DB
+    Campground.find({ name: regex }, (err, allCampgrounds) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (!allCampgrounds.length) {
+          noMatch = `No campgrounds match "${req.query.search}" query, please try again.`;
+        }
+        res.render('campgrounds/index', {
+          campgrounds: allCampgrounds,
+          noMatch: noMatch,
+        });
+      }
+    });
+  } else {
+    // Get all campgrounds from DB
+    Campground.find({}, function (err, allCampgrounds) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.render('campgrounds/index', {
+          campgrounds: allCampgrounds,
+          noMatch: noMatch,
+        });
+      }
+    });
+  }
 });
 
 // CREATE - add new campground to DB
 router.post('/', middleware.isLoggedIn, (req, res) => {
-  // get data from form and add to campgrounds array
+  // Get data from form and add to campgrounds array
   const name = req.body.name;
   const price = req.body.price;
   const image = req.body.image;
@@ -57,7 +80,7 @@ router.get('/:id', (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        // render show template with that campground
+        // Render show template with that campground
         res.render('campgrounds/show', { campground: foundCampground });
       }
     });
@@ -72,9 +95,9 @@ router.get('/:id/edit', middleware.checkCampgroundOwnership, (req, res) => {
 
 // Update campground route
 router.put('/:id', middleware.checkCampgroundOwnership, (req, res) => {
-  // find and update the correct campground
+  // Find and update the correct campground
   const campground = req.body.campground;
-  // prevent unnecessary spaces in the form except for non-string values
+  // Prevent unnecessary spaces in the form except for non-string values
   Object.keys(campground).forEach((key) => {
     if (typeof campground[key] === 'string') {
       campground[key] = campground[key].trim();
@@ -91,7 +114,7 @@ router.put('/:id', middleware.checkCampgroundOwnership, (req, res) => {
       }
     },
   );
-  //redirect somewhere(show page)
+  //Redirect somewhere(show page)
 });
 
 // Delete campground route
@@ -101,5 +124,8 @@ router.delete('/:id', middleware.checkCampgroundOwnership, (req, res) => {
   });
 });
 
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+};
+
 module.exports = router;
-1;

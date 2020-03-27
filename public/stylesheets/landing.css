@@ -2,11 +2,19 @@ body {
   background-color: #000;
 }
 
+h1 {
+  padding-bottom: 15px;
+}
+
 #landing-header {
   z-index: 1;
   position: relative;
   text-align: center;
   padding-top: 40vh;
+}
+
+#landing-form {
+  justify-content: center;
 }
 
 #landing-header h1 {
