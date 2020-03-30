@@ -3,10 +3,10 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h1 style="text-align: center; margin-top: 30px;">
+      <h1 class='edit-heading'>
         Edit <%= campground.name %>
       </h1>
-      <div style="width: 30%; margin: 30px auto;">
+      <div class='edit-form'>
         <form
           action="/campgrounds/<%= campground._id %>?_method=PUT"
           ,

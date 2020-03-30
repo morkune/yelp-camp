@@ -7,6 +7,7 @@ const nodemailer = require('nodemailer');
 const mg = require('nodemailer-mailgun-transport');
 const crypto = require('crypto');
 const Campground = require('../models/campground');
+const middleware = require('../middleware');
 
 const emailTransport = nodemailer.createTransport(
   mg({
@@ -17,21 +18,21 @@ const emailTransport = nodemailer.createTransport(
   }),
 );
 
-// root route
+// Root route
 router.get('/', (req, res) => {
   res.render('landing');
 });
 
 // Auth routes
 
-// show register form
+// Show register form
 router.get('/register', (req, res) => {
   res.render('register', { isAdmin: req.query.admin === 'true' });
 });
 
-// handle sign up logic
+// Handle sign up logic
 router.post('/register', (req, res) => {
-  // get data from form and add to user array
+  // Get data from form and add to user array
   const username = req.body.username;
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
@@ -67,12 +68,12 @@ router.post('/register', (req, res) => {
   });
 });
 
-// show login form
+// Show login form
 router.get('/login', (req, res) => {
   res.render('login');
 });
 
-// login route responsible for handling login logic
+// Login route responsible for handling login logic
 router.post(
   '/login',
   passport.authenticate('local', {
@@ -82,14 +83,14 @@ router.post(
   (req, res) => {},
 );
 
-// logout route
+// Logout route
 router.get('/logout', (req, res) => {
   req.logout();
   req.flash('success', 'Logged you out!');
   res.redirect('/campgrounds');
 });
 
-//User Profile
+// User Profile
 router.get('/users/:id', (req, res) => {
   User.findById(req.params.id, (err, foundUser) => {
     if (err || !(foundUser && foundUser._id)) {
@@ -114,7 +115,40 @@ router.get('/users/:id', (req, res) => {
   });
 });
 
-// forgot route
+// User profile edit route
+router.get('/users/:id/edit', middleware.checkUserOwnership, (req, res) => {
+  User.findById(req.params.id, (err, foundUser) => {
+    if (err || !(foundUser && foundUser._id)) {
+      req.flash('error', 'Something went wrong');
+      res.redirect('/');
+    } else {
+      res.render('users/profile-edit', {
+        user: foundUser,
+      });
+    }
+  });
+});
+
+// Update profile route
+router.put('/users/:id', middleware.checkUserOwnership, (req, res) => {
+  // Find and update the correct user
+  const user = req.body.user;
+  // Prevent unnecessary spaces in the form except for non-string values
+  Object.keys(user).forEach((key) => {
+    if (typeof user[key] === 'string') {
+      user[key] = user[key].trim();
+    }
+  });
+  User.findByIdAndUpdate(req.params.id, user, (err) => {
+    if (err) {
+      res.redirect('/campgrounds');
+    } else {
+      res.redirect('/users/' + req.params.id);
+    }
+  });
+});
+
+// Forgot route
 router.get('/forgot', (req, res) => {
   res.render('forgot');
 });
@@ -176,7 +210,7 @@ router.post('/forgot', (req, res, next) => {
   );
 });
 
-// route that loads the view route
+// Route that loads the view route
 router.get('/reset/:token', (req, res) => {
   User.findOne(
     {
@@ -210,12 +244,12 @@ router.post('/reset/:token', (req, res) => {
               );
               return res.redirect('back');
             }
-            // if the first password is the same as the second passw, so we can go ahead and reset passw
+            // If the first password is the same as the second passw, so we can go ahead and reset passw
             if (req.body.password === req.body.confirm) {
               user.setPassword(req.body.password, (err) => {
                 user.resetPasswordToken = undefined;
                 user.resetPasswordExpires = undefined;
-                // save the user new passw (in database)
+                // Save the user new passw (in database)
                 user.save((err) => {
                   req.logIn(user, (err) => {
                     done(err, user);

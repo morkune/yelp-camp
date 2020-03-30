@@ -114,7 +114,7 @@ router.put('/:id', middleware.checkCampgroundOwnership, (req, res) => {
       }
     },
   );
-  //Redirect somewhere(show page)
+  // Redirect somewhere(show page)
 });
 
 // Delete campground route
