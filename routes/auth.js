@@ -132,7 +132,8 @@ router.get('/users/:id/edit', middleware.checkUserOwnership, (req, res) => {
 // Update profile route
 router.put('/users/:id', middleware.checkUserOwnership, (req, res) => {
   // Find and update the correct user
-  const user = req.body.user;
+  const { username, firstName, lastName, avatar, email } = req.body.user;
+  const user = { username, firstName, lastName, avatar, email };
   // Prevent unnecessary spaces in the form except for non-string values
   Object.keys(user).forEach((key) => {
     if (typeof user[key] === 'string') {

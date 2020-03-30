@@ -53,16 +53,6 @@
   flex-wrap: wrap;
 }
 
-.edit-form {
-  width: 30%;
-  margin: 30px auto;
-}
-
-.edit-heading {
-  text-align: center;
-  margin-top: 30px;
-}
-
 .profile-heading {
   display: inline-block;
   margin-right: 15px;

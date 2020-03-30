@@ -96,7 +96,8 @@ router.get('/:id/edit', middleware.checkCampgroundOwnership, (req, res) => {
 // Update campground route
 router.put('/:id', middleware.checkCampgroundOwnership, (req, res) => {
   // Find and update the correct campground
-  const campground = req.body.campground;
+  const { name, price, image, desc } = req.body.campground;
+  const campground = { name, price, image, desc };
   // Prevent unnecessary spaces in the form except for non-string values
   Object.keys(campground).forEach((key) => {
     if (typeof campground[key] === 'string') {
