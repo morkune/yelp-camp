@@ -12,13 +12,7 @@ npm install
 
 Application use environment variables for Mongo DB connection string, Mailgun API key, domain and secret code needed to be able to register as an administrator user.
 
-To create local environment variables in PowerShell, simply use:
-```sh
-$env:DB_CONNECTION_STRING = 'mongodb://localhost/yelpCamp'
-$env:MG_API_KEY = 'example-api-key'
-$env:MG_DOMAIN = 'example-domain'
-$env:ADMIN_CODE = 'example-code'
-```
+Local environment variables should be listed in the .env file the same as shown in the .env-example file.
 
 Run application in development mode:
 ```sh
