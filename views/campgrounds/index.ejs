@@ -6,22 +6,32 @@
       <h1>Welcome to YelpCamp!</h1>
       <p>View our hand-picked campgrounds from all over the world</p>
       <p>
-        <a class="btn btn-primary btn-lg" href="/campgrounds/new"
-          >Add New Campground</a
-        >
+        <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add New Campground</a>
       </p>
     </div>
   </header>
 
-  <div class="row text-center">
+  <div class="row text-left search-form">
+    <div class="col-md-12">
+      <% if(noMatch !== null) { %>
+      <h3><%= noMatch %></h3>
+    <p>
+      <form action="/campgrounds" method="GET" class="form-inline">
+        <div class="form-group">
+          <input type="text" name="search" placeholder="Campground search..." class="form-control">
+          <input type="submit" value="Search" class="btn btn-outline-secondary">
+        </div>
+      </form>
+    </p>
+    <% } %>
+  </div>
     <% campgrounds.forEach((campground) => { %>
     <div class="col-lg-3 col-sm-6">
-      <div class="card" style="margin-bottom: 30px;">
+      <div class="card image-card">
         <img
           src="<%= campground.image %>"
           class="card-img-top"
           alt="<%= campground.name %> image"
-          style="width: 100%;"
         />
         <div class="card-body">
           <h4 class="card-title"><%= campground.name %></h4>

@@ -7,10 +7,14 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const methodOverride = require('method-override');
+const dotenv = require('dotenv');
+
+dotenv.config(); // Get env variables from .env file
+
 const PORT = process.env.PORT || 3000;
 const DB_CONNECTION_STRING = process.env.DB_CONNECTION_STRING;
 
-// requiring routes
+// Requiring routes
 const commentRoutes = require('./routes/comments');
 const campgroundRoutes = require('./routes/campgrounds');
 const authRoutes = require('./routes/auth');
