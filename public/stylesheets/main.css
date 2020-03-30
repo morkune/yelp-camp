@@ -52,3 +52,13 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.profile-heading {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.heading-container {
+  align-items: baseline;
+  display: flex;
+}
