@@ -6,7 +6,11 @@
       <h1>Welcome to YelpCamp!</h1>
       <p>View our hand-picked campgrounds from all over the world</p>
       <p>
+        <% if (currentUser) { %>
         <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add New Campground</a>
+        <% } else { %>
+          <a href="/login">Log in to add new campground</a>
+        <% } %>
       </p>
     </div>
   </header>

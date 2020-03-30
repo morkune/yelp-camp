@@ -109,6 +109,10 @@ router.get('/users/:id', (req, res) => {
           res.render('users/profile', {
             user: foundUser,
             campgrounds: campgrounds,
+            canEdit:
+              req.isAuthenticated() &&
+              req.user &&
+              (req.params.id === req.user._id.toString() || req.user.isAdmin),
           });
         });
     }

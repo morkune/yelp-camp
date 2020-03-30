@@ -6,7 +6,9 @@
       <h1 class="profile-heading">
         <%= user.firstName + " " + user.lastName %>
       </h1>
+      <% if (canEdit) { %>
       <a href="/users/<%= user._id %>/edit %>">Edit</a>
+      <% } %>
     </div>
   </div>
   <div class="row">
