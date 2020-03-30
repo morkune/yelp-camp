@@ -12,7 +12,7 @@ npm install
 
 Application use environment variables for Mongo DB connection string, Mailgun API key, domain and secret code needed to be able to register as an administrator user.
 
-Local environment variables should be listed in the .env file the same as shown in the .env-example file.
+A list of required environment variables can be found in the `.env-example` file. You can assign them through CLI or by creating `.env` file.
 
 Run application in development mode:
 ```sh
