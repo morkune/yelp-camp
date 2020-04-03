@@ -106,7 +106,6 @@ router.get('/new', middleware.isLoggedIn, (req, res) => {
 router.get('/:id', (req, res) => {
   // Find the campground with provided id
   Campground.findById(req.params.id)
-    .populate('comments')
     .populate({
       path: 'reviews',
       options: { sort: { createdAt: -1 } },
@@ -181,22 +180,15 @@ router.delete('/:id', middleware.checkCampgroundOwnership, (req, res) => {
     }
     try {
       await cloudinary.v2.uploader.destroy(campground.imageId);
-      // Deletes all comments associated with the campground
-      Comment.remove({ _id: { $in: campground.comments } }, (err) => {
+      // Deletes all reviews associated with the campground
+      Review.remove({ _id: { $in: campground.reviews } }, (err) => {
         if (err) {
           console.log(err);
           return res.redirect('/campgrounds');
         }
-        // Deletes all reviews associated with the campground
-        Review.remove({ _id: { $in: campground.reviews } }, (err) => {
-          if (err) {
-            console.log(err);
-            return res.redirect('/campgrounds');
-          }
-          campground.remove();
-          req.flash('success', 'Campground deleted successfully!');
-          res.redirect('/campgrounds');
-        });
+        campground.remove();
+        req.flash('success', 'Campground deleted successfully!');
+        res.redirect('/campgrounds');
       });
     } catch (err) {
       if (err) {

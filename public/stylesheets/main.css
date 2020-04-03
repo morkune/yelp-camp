@@ -14,10 +14,6 @@
   margin-left: 5px;
 }
 
-.comments-card {
-  margin-top: 1em;
-}
-
 .reviews-hr {
   margin-top: 0;
 }
@@ -65,8 +61,7 @@
 }
 
 .search-form {
-  display: flex;
-  flex-wrap: wrap;
+  margin-left: 1.5rem;
 }
 
 .profile-heading {
@@ -77,4 +72,10 @@
 .heading-container {
   align-items: baseline;
   display: flex;
+}
+
+.navs-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
