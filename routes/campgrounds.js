@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Campground = require('../models/campground');
 const middleware = require('../middleware');
+const Review = require('../models/review');
 const multer = require('multer');
 const storage = multer.diskStorage({
   filename: (req, file, callback) => {
@@ -106,6 +107,10 @@ router.get('/:id', (req, res) => {
   // Find the campground with provided id
   Campground.findById(req.params.id)
     .populate('comments')
+    .populate({
+      path: 'reviews',
+      options: { sort: { createdAt: -1 } },
+    })
     .exec((err, foundCampground) => {
       if (err) {
         console.log(err);
@@ -129,6 +134,7 @@ router.put(
   middleware.checkCampgroundOwnership,
   upload.single('image'),
   (req, res) => {
+    delete req.body.campground.rating;
     // Find and update the correct campground
     const { name, price, image, desc } = req.body.campground;
     const campground = { name, price, image, desc };
@@ -175,9 +181,23 @@ router.delete('/:id', middleware.checkCampgroundOwnership, (req, res) => {
     }
     try {
       await cloudinary.v2.uploader.destroy(campground.imageId);
-      campground.remove();
-      req.flash('success', 'Campground deleted successfully!');
-      res.redirect('/campgrounds');
+      // Deletes all comments associated with the campground
+      Comment.remove({ _id: { $in: campground.comments } }, (err) => {
+        if (err) {
+          console.log(err);
+          return res.redirect('/campgrounds');
+        }
+        // Deletes all reviews associated with the campground
+        Review.remove({ _id: { $in: campground.reviews } }, (err) => {
+          if (err) {
+            console.log(err);
+            return res.redirect('/campgrounds');
+          }
+          campground.remove();
+          req.flash('success', 'Campground deleted successfully!');
+          res.redirect('/campgrounds');
+        });
+      });
     } catch (err) {
       if (err) {
         req.flash('error', err.message);

@@ -6,12 +6,28 @@
   width: auto;
 }
 
+.reviews-card {
+  margin-top: 20px;
+}
+
+.reviews-link {
+  margin-left: 5px;
+}
+
 .comments-card {
   margin-top: 1em;
 }
 
+.reviews-hr {
+  margin-top: 0;
+}
+
 #delete-form {
   display: inline;
+}
+
+.checked {
+  color: orange;
 }
 
 .form-heading {
