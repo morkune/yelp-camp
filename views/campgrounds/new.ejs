@@ -6,7 +6,7 @@
       <h1 class="form-heading">
         Create a new Campground
       </h1>
-      <form class="form" action="/campgrounds" method="POST">
+      <form class="form" action="/campgrounds" method="POST" enctype="multipart/form-data">
         <div class="form-group">
           <label for="name-input">Name</label>
           <input
@@ -18,7 +18,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="name-input">Price $</label>
+          <label for="price-input">Price $</label>
           <input
             class="form-control"
             type="number"
@@ -30,17 +30,17 @@
           />
         </div>
         <div class="form-group">
-          <label for="name-input">Image URL</label>
+          <label for="image">Image</label>
           <input
-            class="form-control"
-            type="text"
+            type="file"
             name="image"
-            id="image-input"
+            id="image"
+            accept="image/*"
             required
           />
         </div>
         <div class="form-group">
-          <label for="name-input">Description</label>
+          <label for="description-input">Description</label>
           <textarea
             class="form-control"
             type="text"
