@@ -26,7 +26,7 @@
                 <div class="card-body">
                     
                     <p><h4>All reviews for this campground:</h4></p>
-                    <hr style="margin-top: 0;">
+                    <hr class="reviews-hr">
                     <% campground.reviews.forEach(function(review){ %>
                     <div class="row">
                         <div class="col-md-3">
@@ -35,7 +35,7 @@
                             <span><em><%= review.updatedAt.toDateString() %></em></span>
                         </div>
                         <div class="col-md-9">
-                            <p style="text-align: justify; word-wrap: break-word;">
+                            <p class="review-text">
                                 <%= review.text %>
                             </p>
                             <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
@@ -54,8 +54,8 @@
                         <a class="btn btn-primary <% if (currentUser && campground.reviews.some(function (review) {return review.author.id.equals(currentUser._id)})) { %> disabled <% } %>" href="/campgrounds/<%= campground._id %>/reviews/new">
                             Write a New Review</a>
                     </div>
-                    <div style="margin-top: 10px;">
-                        <a class="btn btn-default" href="/campgrounds/<%= campground._id %>"><i class="fa fa-arrow-left"></i> Go back</a>
+                    <div class="reviews-back-button">
+                        <a class="btn btn-default" href="/campgrounds/<%= campground._id %>"><i class="fa fa-arrow-left"></i> Go to campground</a>
                     </div>
                 </div>
             </div>

@@ -67,6 +67,7 @@ middlewareObj.checkReviewOwnership = (req, res, next) => {
   }
 };
 
+// Middleware.checkReviewExistence checks if a user already reviewed the campground, only one review per user is allowed
 middlewareObj.checkReviewExistence = (req, res, next) => {
   if (req.isAuthenticated()) {
     Campground.findById(req.params.id)

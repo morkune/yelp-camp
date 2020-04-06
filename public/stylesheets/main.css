@@ -79,3 +79,16 @@
   justify-content: space-between;
   width: 100%;
 }
+
+.change-rating-h2 {
+  font-size: large;
+}
+
+.review-text {
+  text-align: justify;
+  word-wrap: break-word;
+}
+
+.reviews-back-button {
+  margin-top: 10px;
+}

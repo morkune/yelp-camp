@@ -26,7 +26,6 @@ router.get(
   middleware.isLoggedIn,
   middleware.checkReviewExistence,
   (req, res) => {
-    // Middleware.checkReviewExistence checks if a user already reviewed the campground, only one review per user is allowed
     Campground.findById(req.params.id, (err, campground) => {
       if (err) {
         req.flash('error', err.message);

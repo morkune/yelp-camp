@@ -68,7 +68,7 @@
                     <span><em><%= review.updatedAt.toDateString() %></em></span>
                 </div>
                 <div class="col-md-9">
-                    <p style="text-align: justify; word-wrap: break-word;">
+                    <p class="review-text">
                         <%= review.text %>
                     </p>
                     <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
@@ -85,7 +85,7 @@
             <% } %>
             <div>
               <% if(currentUser && !campground.reviews.some((review) => { return review.author.id.equals(currentUser._id) })) { %>
-                <a class="btn btn-primary btn-sm" href="/campgrounds/<%= campground._id %>/reviews/new">Write a New Review</a>              
+                <a class="btn btn-primary btn-sm" href="/campgrounds/<%= campground._id %>/reviews/new">Write a Review</a>              
               <% } %>
               <% if(!currentUser) { %>
                 <a href="/login">Login to leave a review</a>
