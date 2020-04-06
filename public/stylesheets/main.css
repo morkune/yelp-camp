@@ -6,12 +6,24 @@
   width: auto;
 }
 
-.comments-card {
-  margin-top: 1em;
+.reviews-card {
+  margin-top: 20px;
+}
+
+.reviews-link {
+  margin-left: 5px;
+}
+
+.reviews-hr {
+  margin-top: 0;
 }
 
 #delete-form {
   display: inline;
+}
+
+.checked {
+  color: orange;
 }
 
 .form-heading {
@@ -49,8 +61,7 @@
 }
 
 .search-form {
-  display: flex;
-  flex-wrap: wrap;
+  margin-left: 1.5rem;
 }
 
 .profile-heading {
@@ -61,4 +72,23 @@
 .heading-container {
   align-items: baseline;
   display: flex;
+}
+
+.navs-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.rating-selection-label {
+  font-size: 1.3em;
+}
+
+.review-text {
+  text-align: justify;
+  word-wrap: break-word;
+}
+
+.reviews-back-link-container {
+  margin-top: 10px;
 }

@@ -15,9 +15,9 @@ const PORT = process.env.PORT || 3000;
 const DB_CONNECTION_STRING = process.env.DB_CONNECTION_STRING;
 
 // Requiring routes
-const commentRoutes = require('./routes/comments');
 const campgroundRoutes = require('./routes/campgrounds');
 const authRoutes = require('./routes/auth');
+const reviewRoutes = require('./routes/reviews');
 
 console.log('Connecting to Mongo DB...');
 mongoose
@@ -68,7 +68,7 @@ app.use((req, res, next) => {
 
 app.use(authRoutes);
 app.use('/campgrounds', campgroundRoutes);
-app.use('/campgrounds/:id/comments', commentRoutes);
+app.use('/campgrounds/:id/reviews', reviewRoutes);
 
 app.listen(PORT, () => {
   console.log('The Server Has Started!');
