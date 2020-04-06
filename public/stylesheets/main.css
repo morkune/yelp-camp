@@ -80,8 +80,8 @@
   width: 100%;
 }
 
-.change-rating-h2 {
-  font-size: large;
+.rating-selection-label {
+  font-size: 1.3em;
 }
 
 .review-text {
@@ -89,6 +89,6 @@
   word-wrap: break-word;
 }
 
-.reviews-back-button {
+.reviews-back-link {
   margin-top: 10px;
 }

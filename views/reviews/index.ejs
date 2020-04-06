@@ -54,8 +54,8 @@
                         <a class="btn btn-primary <% if (currentUser && campground.reviews.some(function (review) {return review.author.id.equals(currentUser._id)})) { %> disabled <% } %>" href="/campgrounds/<%= campground._id %>/reviews/new">
                             Write a New Review</a>
                     </div>
-                    <div class="reviews-back-button">
-                        <a class="btn btn-default" href="/campgrounds/<%= campground._id %>"><i class="fa fa-arrow-left"></i> Go to campground</a>
+                    <div class="reviews-back-link">
+                        <a href="/campgrounds/<%= campground._id %>">Go to campground</a>
                     </div>
                 </div>
             </div>
