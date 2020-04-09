@@ -24,13 +24,13 @@
       <% } %>
 
       <div class="landing-header">
-        <h1>Welcome to YelpCamp!</h1>
-        <a href="/campgrounds" class="btn btn-lg btn-success">View All Campgrounds</a>
+        <h1 data-cy="landing-header">Welcome to YelpCamp!</h1>
+        <a href="/campgrounds" class="btn btn-lg btn-success" data-cy="link-to-campgrounds">View All Campgrounds</a>
         <p>
           <form action="/campgrounds" method="GET" class="form-inline landing-form">
             <div class="form-group">
-              <input type="text" name="search" placeholder="Campground search..." class="form-control">
-              <input type="submit" value="Search" class="btn btn-secondary">
+              <input type="text" name="search" placeholder="Campground search..." class="form-control" data-cy="search">
+              <input type="submit" value="Search" class="btn btn-secondary" data-cy="submit">
             </div>
           </form>
         </p>
