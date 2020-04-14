@@ -30,12 +30,12 @@ router.get('/', (req, res) => {
   const perPage = 8;
   const pageNumber = parseInt(req.query.page) || 1;
   let noMatch = null;
+  const pagesToSkip = perPage * pageNumber - perPage;
   if (req.query.search) {
     const regex = new RegExp(escapeRegex(req.query.search), 'gi');
     // Get all campgrounds from DB
-    const skipPage = perPage * pageNumber - perPage;
     Campground.find({ name: regex })
-      .skip(skipPage)
+      .skip(pagesToSkip)
       .limit(perPage)
       .exec((err, allCampgrounds) => {
         Campground.count({ name: regex }).exec((err, count) => {
@@ -59,7 +59,7 @@ router.get('/', (req, res) => {
   } else {
     // Get all campgrounds from DB
     Campground.find({})
-      .skip(skipPage)
+      .skip(pagesToSkip)
       .limit(perPage)
       .exec((err, allCampgrounds) => {
         Campground.count().exec((err, count) => {
