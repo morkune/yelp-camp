@@ -28,14 +28,14 @@ cloudinary.config({
 // INDEX - show all campgrounds in the web
 router.get('/', (req, res) => {
   const perPage = 8;
-  const pageQuery = parseInt(req.query.page);
-  const pageNumber = pageQuery ? pageQuery : 1;
+  const pageNumber = parseInt(req.query.page) || 1;
   let noMatch = null;
   if (req.query.search) {
     const regex = new RegExp(escapeRegex(req.query.search), 'gi');
     // Get all campgrounds from DB
+    const skipPage = perPage * pageNumber - perPage;
     Campground.find({ name: regex })
-      .skip(perPage * pageNumber - perPage)
+      .skip(skipPage)
       .limit(perPage)
       .exec((err, allCampgrounds) => {
         Campground.count({ name: regex }).exec((err, count) => {
@@ -59,7 +59,7 @@ router.get('/', (req, res) => {
   } else {
     // Get all campgrounds from DB
     Campground.find({})
-      .skip(perPage * pageNumber - perPage)
+      .skip(skipPage)
       .limit(perPage)
       .exec((err, allCampgrounds) => {
         Campground.count().exec((err, count) => {
