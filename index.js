@@ -18,6 +18,7 @@ const DB_CONNECTION_STRING = process.env.DB_CONNECTION_STRING;
 const campgroundRoutes = require('./routes/campgrounds');
 const authRoutes = require('./routes/auth');
 const reviewRoutes = require('./routes/reviews');
+const apiRoutes = require('./routes/api');
 
 console.log('Connecting to Mongo DB...');
 mongoose
@@ -36,6 +37,7 @@ mongoose
   );
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public')); // Serve static files in /public
 app.use(methodOverride('_method'));
@@ -69,6 +71,7 @@ app.use((req, res, next) => {
 app.use(authRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
+app.use('/api', apiRoutes);
 
 app.listen(PORT, () => {
   console.log('The Server Has Started!');
