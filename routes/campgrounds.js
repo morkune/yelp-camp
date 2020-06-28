@@ -171,7 +171,9 @@ router.put(
       } else {
         if (req.file) {
           try {
-            await cloudinary.v2.uploader.destroy(campground.imageId);
+            if (campground.imageId) {
+              await cloudinary.v2.uploader.destroy(campground.imageId);
+            }
             const result = await cloudinary.v2.uploader.upload(req.file.path);
             campground.imageId = result.public_id;
             campground.image = result.secure_url;
