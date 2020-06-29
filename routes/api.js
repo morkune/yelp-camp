@@ -1,8 +1,10 @@
 const express = require('express');
-const middleware = require('../middleware');
 const passport = require('passport');
+const cloudinary = require('cloudinary');
 const router = express.Router();
+const middleware = require('../middleware');
 const Campground = require('../models/campground');
+const Review = require('../models/review');
 
 function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -23,7 +25,6 @@ router.get('/campgrounds', (req, res) => {
 
 // CREATE - add new campground to DB
 router.post('/campgrounds', middleware.isLoggedIn, (req, res) => {
-    console.log(req.body);
   // Get some data from form
   const name = req.body.name;
   const price = req.body.price;
@@ -33,25 +34,53 @@ router.post('/campgrounds', middleware.isLoggedIn, (req, res) => {
     username: req.user.username,
   };
   const image = req.body.image;
-  const imageId = req.body.imageId;
   const newCampground = {
     name: name.trim(),
     price: price.trim(),
     description: desc.trim(),
     author: author,
     image: image.trim(),
-    imageId: imageId.trim(),
   };
+  if (req.body.imageId) {
+    newCampground.imageId = req.body.imageId.trim();
+  }
   // Create a new campground and save it to DB
   Campground.create(newCampground, (err, newCampground) => {
     res.json(newCampground);
   });
 });
 
-router.post('/login', passport.authenticate('local'),
-    (req, res) => {
-        res.json(req.user);
-    },
-  );
+// Delete campground route from DB
+router.delete(
+  '/campgrounds/:id',
+  middleware.checkCampgroundOwnership,
+  (req, res) => {
+    Campground.findById(req.params.id, async (err, campground) => {
+      if (!campground) {
+        return res.sendStatus(200);
+      }
+      if (err) {
+        console.error(err);
+        return res.status(500).send(err);
+      }
+      try {
+        if (campground.imageId) {
+          await cloudinary.v2.uploader.destroy(campground.imageId);
+        }
+        Review.remove({ _id: { $in: campground.reviews } }, () => {
+          campground.remove();
+        });
+        return res.sendStatus(200);
+      } catch (err) {
+        console.error(err);
+        return res.status(500).send(err);
+      }
+    });
+  },
+);
+
+router.post('/login', passport.authenticate('local'), (req, res) => {
+  res.json(req.user);
+});
 
 module.exports = router;

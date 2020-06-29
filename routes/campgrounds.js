@@ -201,8 +201,9 @@ router.delete('/:id', middleware.checkCampgroundOwnership, (req, res) => {
       return res.redirect('back');
     }
     try {
-      await cloudinary.v2.uploader.destroy(campground.imageId);
-      // Deletes all reviews associated with the campground
+      if (campground.imageId) {
+        await cloudinary.v2.uploader.destroy(campground.imageId);
+      }
       Review.remove({ _id: { $in: campground.reviews } }, (err) => {
         if (err) {
           console.log(err);
