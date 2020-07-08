@@ -5,6 +5,7 @@ const router = express.Router();
 const middleware = require('../middleware');
 const Campground = require('../models/campground');
 const Review = require('../models/review');
+const User = require('../models/user');
 
 function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -78,6 +79,46 @@ router.delete(
     });
   },
 );
+
+// Delete user route from DB
+router.delete('/users/:id', (req, res) => {
+  if (!req.user.isAdmin) {
+    return res.sendStatus(401);
+  }
+  User.findById(req.params.id, (err, foundUser) => {
+    if (err || !(foundUser && foundUser._id)) {
+      return res.sendStatus(404);
+    } else {
+      Campground.find()
+        .where('author.id')
+        .equals(foundUser._id)
+        .exec((err, campgrounds) => {
+          campgrounds.forEach(async (campground) => {
+            if (err) {
+              return res.sendStatus(500);
+            }
+            try {
+              if (campground.imageId) {
+                await cloudinary.v2.uploader.destroy(campground.imageId);
+              }
+              Review.remove({ _id: { $in: campground.reviews } }, () => {
+                campground.remove();
+              });
+            } catch (err) {
+              console.error(err);
+            }
+          });
+          try {
+            foundUser.remove();
+            return res.sendStatus(200);
+          } catch (err) {
+            console.error(err);
+            res.sendStatus(500);
+          }
+        });
+    }
+  });
+});
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
   res.json(req.user);

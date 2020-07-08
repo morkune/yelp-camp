@@ -133,10 +133,10 @@ router.get('/:id', (req, res) => {
     .exec((err, foundCampground) => {
       if (err) {
         console.log(err);
-      } else {
-        // Render show template with that campground
-        res.render('campgrounds/show', { campground: foundCampground });
+        req.flash('error', err.message);
       }
+      // Render show template with that campground
+      res.render('campgrounds/show', { campground: foundCampground });
     });
 });
 
