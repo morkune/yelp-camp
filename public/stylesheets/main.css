@@ -92,3 +92,8 @@
 .reviews-back-link-container {
   margin-top: 10px;
 }
+
+.right-nav-container {
+  display: flex;
+  align-items: center;
+}
