@@ -124,4 +124,19 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
   res.json(req.user);
 });
 
+router.get('/users', (req, res) => {
+  let dbFilter = {};
+  if (req.query.firstName) {
+    const regex = new RegExp(escapeRegex(req.query.firstName), 'gi');
+    dbFilter = { firstName: regex };
+  }
+
+  // Get all users from DB
+  User.find(dbFilter).exec((err, allUsers) => {
+    res.json(allUsers); // Return users as JSON
+  });
+});
+
+
+
 module.exports = router;
