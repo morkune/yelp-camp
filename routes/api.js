@@ -47,6 +47,9 @@ router.post('/campgrounds', middleware.isLoggedIn, (req, res) => {
   }
   // Create a new campground and save it to DB
   Campground.create(newCampground, (err, newCampground) => {
+    if (err) {
+      return res.sendStatus(500);
+    }
     res.json(newCampground);
   });
 });
@@ -126,9 +129,9 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 
 router.get('/users', (req, res) => {
   let dbFilter = {};
-  if (req.query.firstName) {
-    const regex = new RegExp(escapeRegex(req.query.firstName), 'gi');
-    dbFilter = { firstName: regex };
+  if (req.query.username) {
+    const regex = new RegExp(escapeRegex(req.query.username), 'gi');
+    dbFilter = { username: regex };
   }
 
   // Get all users from DB
