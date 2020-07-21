@@ -36,11 +36,11 @@ router.post('/campgrounds', middleware.isLoggedIn, (req, res) => {
   };
   const image = req.body.image;
   const newCampground = {
-    name: name.trim(),
-    price: price.trim(),
-    description: desc.trim(),
+    name: name && name.trim(),
+    price: price && price.trim(),
+    description: desc && desc.trim(),
     author: author,
-    image: image.trim(),
+    image: image && image.trim(),
   };
   if (req.body.imageId) {
     newCampground.imageId = req.body.imageId.trim();
@@ -137,6 +137,32 @@ router.get('/users', (req, res) => {
   });
 });
 
+router.post('/users', (req, res) => {
+  if (!req.user.isAdmin) {
+    return res.sendStatus(401);
+  }
+  const username = req.body.username;
+  const password = req.body.password;
+  const firstname = req.body.firstName;
+  const lastname = req.body.lastName;
+  const email = req.body.email;
+  const avatar = req.body.avatar;
+  const newUser = {
+    username: username && username.trim(),
+    password: password && password.trim(),
+    firstName: firstname && firstname.trim(),
+    lastName: lastname && lastname.trim(),
+    email: email && email.trim(),
+    avatar: avatar && avatar.trim(),
+  };
 
+  // Create a new user and save it to DB
+  User.create(newUser, (err, newUser) => {
+    if (err) {
+      return res.sendStatus(500);
+    }
+    res.json(newUser);
+  });
+});
 
 module.exports = router;
