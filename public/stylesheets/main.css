@@ -102,3 +102,8 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+
+input:invalid,
+textarea:invalid {
+  border-color: #be1818;
+}
